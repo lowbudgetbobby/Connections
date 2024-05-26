@@ -68,14 +68,20 @@ class SocketClient:
             raise ConnectionNotFound('No connection')
         return self.conn.operator.recv(byteLength or self.conn.buffer_size)
 
-    def write(self, msg: str):
+    def write(self, msg):
         try:
-            self.conn.operator.send(bytes(msg, "utf-8"))
+            self.conn.operator.send(msg)
         except socket.error as e:
             raise ConnectionNotFound("error while sending :: " + str(e))
 
-    def write_all(self, msg: str):
+    def write_all(self, msg):
         try:
-            self.conn.operator.sendall(bytes(msg, "utf-8"))
+            self.conn.operator.sendall(msg)
         except socket.error as e:
             raise ConnectionNotFound("error while sending :: " + str(e))
+
+    def write_str(self, msg: str):
+        self.write(bytes(msg, "utf-8"))
+
+    def write_all_str(self, msg: str):
+        self.write_all(bytes(msg, "utf-8"))
