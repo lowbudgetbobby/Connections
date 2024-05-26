@@ -6,5 +6,5 @@ url='#',
 author='Low Budget Bob',
 author_email='lowbudgetbobby@email.com',
 # license='MIT',
-packages=['connections'],
+packages=['connectors'],
 zip_safe=False)
