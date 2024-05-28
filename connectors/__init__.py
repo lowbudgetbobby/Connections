@@ -24,8 +24,9 @@ class SocketConn:
             raise OSError("Error while connecting :: %s" % e)
 
     def close(self):
-        self._socket.close()
-        self._socket = None
+        if self._socket:
+            self._socket.close()
+            self._socket = None
 
 
 class SocketServerConn(SocketConn):
@@ -44,10 +45,12 @@ class SocketServerConn(SocketConn):
             raise OSError("Error while connecting :: %s" % e)
 
     def close(self):
-        self._socket.close()
-        self._socket = None
-        self._conn.close()
-        self._conn = None
+        if self._socket:
+            self._socket.close()
+            self._socket = None
+        if self._conn:
+            self._conn.close()
+            self._conn = None
 
 
 class ConnectionNotFound(Exception):
@@ -61,7 +64,8 @@ class SocketClient:
         self.conn.start_connection()
 
     def stop(self):
-        self.conn.close()
+        if self.conn:
+            self.conn.close()
 
     def read(self, byteLength=None):
         if not self.conn.operator:
