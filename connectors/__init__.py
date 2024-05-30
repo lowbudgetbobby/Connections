@@ -41,6 +41,7 @@ class SocketServerConn(SocketConn):
             self._socket = s
             self._conn, _ = self._socket.accept()
             self.operator = self._conn
+            self._socket.setblocking(False)
         except OSError as e:
             raise OSError("Error while connecting :: %s" % e)
 
